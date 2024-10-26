@@ -1,0 +1,39 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "CloudFormation template to create an IAM user with read-only ECR access.",
+  "Resources": {
+    "RyvnEcrReadOnlyUser": {
+      "Type": "AWS::IAM::User",
+      "Properties": {
+        "UserName": "RyvnEcrReadOnlyUser",
+        "Policies": [
+          {
+            "PolicyName": "RyvnEcrReadOnlyPolicy",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "ecr:BatchCheckLayerAvailability",
+                    "ecr:GetDownloadUrlForLayer",
+                    "ecr:BatchGetImage",
+                    "ecr:GetAuthorizationToken",
+                    "ecr:ListImages"
+                  ],
+                  "Resource": "*"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  "Outputs": {
+    "UserName": {
+      "Description": "IAM User created with read-only ECR access",
+      "Value": { "Ref": "RyvnEcrReadOnlyUser" }
+    }
+  }
+}
